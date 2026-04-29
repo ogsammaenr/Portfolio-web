@@ -1,4 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Parallax Yıldız (Box-Shadow) Üretici ---
+    // CSS dosyasını şişirmemek (bloat-free) için yıldızları dinamik üretiyoruz.
+    const generateStars = (count) => {
+        let shadows = [];
+        for(let i = 0; i < count; i++) {
+            // 2000px x 2000px bir alan içine rastgele yıldızlar dağıt
+            shadows.push(`${Math.floor(Math.random() * 2000)}px ${Math.floor(Math.random() * 2000)}px #FFF`);
+        }
+        return shadows.join(', ');
+    };
+
+    // Her katman için farklı sayıda yıldız üret ve CSS değişkenlerine ata
+    const starsContainer = document.getElementById('stars-container');
+    if(starsContainer) {
+        starsContainer.style.setProperty('--shadows-small', generateStars(700));
+        starsContainer.style.setProperty('--shadows-medium', generateStars(200));
+        starsContainer.style.setProperty('--shadows-big', generateStars(100));
+    }
+    
     // --- Reveal Animasyonu (Aşağı Kaydırma Efektleri İçin Aynı Kalıyor) ---
     const modernCards = document.querySelectorAll('.modern-card:not(.carousel-card-3d), .section-title');
     const observer = new IntersectionObserver((entries) => {

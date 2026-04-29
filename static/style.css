@@ -50,51 +50,88 @@ a {
     text-decoration: none;
 }
 
-/* --- Sabit Yan Menü (Sol) --- */
-.side-nav {
-    position: fixed; /* Ekranın soluna çiviler */
-    top: 3rem;
-    left: 2rem;
-    z-index: 9999; /* En üst katman: Dalga ve Hero'nun üstünde kalır */
-    width: 200px;
+/* --- YÜZEN DİKEY NAVİGASYON --- */
+.floating-nav-isolated {
+    position: fixed;
+    left: 1.5rem;      /* Sol kenardan boşluk */
+    top: 50%;          /* Ekranın ortası */
+    transform: translateY(-50%);
+    z-index: 1000;
 }
 
-.side-nav ul {
+.nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;      /* Kapsüller arasındaki boşluk */
     list-style: none;
+    margin: 0;
     padding: 0;
 }
 
-.side-nav a {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
+.nav-capsule {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    /* EŞİT BOYUTLANDIRMA */
+    width: 110px;      /* Tüm kapsüller için sabit genişlik */
+    height: 45px;      /* Tüm kapsüller için sabit yükseklik */
+    
+    background: rgba(17, 24, 39, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px; /* Modern köşeli kapsül yapısı */
+    
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    padding-left: 0;
+    overflow: hidden;
 }
 
-/* Hover durumunda menü öğelerine zarif bir çizgi ve parlama */
-.side-nav a:hover {
-    color: var(--accent);
-    padding-left: 10px;
-    text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
+/* Hover Durumu: Neon Parlama ve Kenarlık Vurgusu */
+.nav-capsule:hover {
+    color: var(--accent); /* style.css'deki siber mavi rengin */
+    background: rgba(31, 41, 55, 0.8);
+    border-color: var(--accent);
+    transform: translateX(5px); /* Hafifçe sağa kayma efekti */
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.2);
 }
-.side-nav a::before {
+
+/* Aktif Kapsül İçin Küçük Bir Vurgu (Opsiyonel) */
+.nav-capsule::before {
     content: '';
     position: absolute;
     left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 2px;
+    width: 3px;
+    height: 0;
     background: var(--accent);
-    transition: width 0.3s ease;
-    box-shadow: var(--accent-glow);
+    transition: height 0.3s ease;
 }
-.side-nav a:hover::before {
-    width: 5px;
+
+.nav-capsule:hover::before {
+    height: 60%;
+}
+
+/* Metin Hizalaması */
+.nav-text {
+    text-align: center;
+    pointer-events: none;
+}}
+
+/* --- MOBİL UYUMLULUK --- */
+@media (max-width: 1024px) {
+    .floating-nav-isolated {
+        left: 0.75rem;
+    }
+    .nav-capsule {
+        width: 90px;
+        font-size: 0.75rem;
+    }
 }
 
 /* --- Ana Taşıyıcı ve Layout --- */
@@ -112,7 +149,7 @@ a {
 
 .main-content {
     grid-column: 2;
-    min-width: 0;
+    min-width: 100;
 }
 
 .section {
@@ -168,101 +205,91 @@ a {
     margin-bottom: 2rem;
 }
 
-/* --- Wave Hero Ana Taşıyıcı --- */
-.hero.wave-hero {
+/* --- HERO ANA TAŞIYICI --- */
+.hero.star-hero {
     position: relative;
     width: 100vw; 
     height: 100vh; 
-    margin: 0;
-    padding: 0;
     display: flex;
     align-items: center;
-    /* Dalgaların görünmesi için Hero zemini hala biraz daha açık renkte kalmalı */
-    background: linear-gradient(180deg, rgba(31, 41, 55, 0.8) 0%, rgba(17, 24, 39, 1) 100%);
-    z-index: 5; 
+    
+    /* GÜNCELLEME: Gradyan daha erken ana renge döner */
+    background: linear-gradient(
+        to bottom, 
+        #111827 0%,             /* Üst kısım siber lacivert/siyah */
+        var(--bg-base) 85%,     /* %85'ten itibaren tamamen sayfa rengine dön */
+        var(--bg-base) 100%
+    );
     overflow: hidden; 
+}
+
+/* --- KATMAN 1: ARKA PLAN & YILDIZLAR (Z-INDEX: 1) --- */
+.hero-bg-layer {
+    position: absolute;
+    inset: 0; 
+    z-index: 1; 
+    pointer-events: none; /* Yıldızların tıklamaları engellemesini önler */
 }
 
 .hero-glow-bg {
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-image: 
-        radial-gradient(circle at 20% 30%, var(--bg-glow-1) 0%, transparent 60%);
-    z-index: 0;
+    inset: 0;
+    background-image: radial-gradient(circle at 20% 30%, var(--bg-glow-1) 0%, transparent 0%);
 }
 
-.hero-content-wrapper {
-    margin-left: 250px; /* Menü genişliği + boşluk */
-    z-index: 10;
-}
-
-/* (Status badge, desc, buton vs. özellikleri önceki kodla aynı kalabilir) */
-
-/* --- Okyanus ve Dalga Efekti --- */
-.ocean, .wave {
-    background-color: var(--bg-base);
-    background-image: 
-        radial-gradient(circle at 15% 0%, var(--bg-glow-1) 0%, transparent 40%),
-        radial-gradient(circle at 85% 100%, var(--bg-glow-2) 0%, transparent 50%);
-    background-attachment: fixed;
-}
-
-.ocean {
-    height: 5%;
-    width: 100%;
+#stars-container {
     position: absolute;
-    bottom: 0;
+    inset: 0;
+    opacity: 0.6; 
+    mix-blend-mode: screen;
+    z-index: 1;
+
+    /* GÜNCELLEME: Arka plan gradyanı ile uyumlu silinme */
+    -webkit-mask-image: linear-gradient(
+        to bottom, 
+        rgba(0, 0, 0, 1) 0%, 
+        rgba(0, 0, 0, 1) 40%,    /* %40'a kadar net */
+        rgba(0, 0, 0, 0) 100%     /* %85'te tamamen görünmez */
+    );
+    mask-image: linear-gradient(
+        to bottom, 
+        rgba(0, 0, 0, 1) 0%, 
+        rgba(0, 0, 0, 1) 40%, 
+        rgba(0, 0, 0, 0) 100%
+    );
+}
+
+.star-layer {
+    position: absolute;
+    top: 0; left: 0;
+}
+
+.star-layer::after {
+    content: " ";
+    position: absolute;
+    top: 2000px;
     left: 0;
-    /* Sayfa arka planı ile BİREBİR AYNI statik renk */
-    background-color: var(--bg-base);
-    z-index: 6;
+    width: inherit;
+    height: inherit;
+    box-shadow: inherit;
 }
 
-.wave {
-    /* Sayfa arka planı ile BİREBİR AYNI statik renk */
-    background-color: var(--bg-base);
-    
-    /* GÜNCELLENDİ: Dış URL silindi! SVG doğrudan CSS içine yerel maske olarak gömüldü. 
-       Artık ekstra HTTP isteği yok ve tarayıcı render sapması yaşanmayacak. */
-    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 198'%3E%3Cpath d='M1600,198H0V0C233.1,0,323.5,68,533.5,68S744,0,977,0s339.5,68,549.5,68S1600,0,1600,0V198z'/%3E%3C/svg%3E");
-    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 198'%3E%3Cpath d='M1600,198H0V0C233.1,0,323.5,68,533.5,68S744,0,977,0s339.5,68,549.5,68S1600,0,1600,0V198z'/%3E%3C/svg%3E");
-    
-    position: absolute;
-    top: -198px;
-    width: 6400px;
-    height: 198px;
-    animation: waveAnim 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
-    transform: translate3d(0, 0, 0);
-    opacity: 1 !important;
+#stars1 { width: 1px; height: 1px; box-shadow: var(--shadows-small); animation: animStar 150s linear infinite; }
+#stars2 { width: 2px; height: 2px; box-shadow: var(--shadows-medium); animation: animStar 100s linear infinite; }
+#stars3 { width: 3px; height: 3px; box-shadow: var(--shadows-big); animation: animStar 50s linear infinite; }
+
+/* --- KATMAN 2: İÇERİK (Z-INDEX: 10) --- */
+.hero-content-wrapper {
+    position: relative;
+    z-index: 10; /* Yıldızları kesin olarak arkada bırakır */
+    margin-left: 250px; 
 }
 
-.wave:nth-of-type(2) {
-    top: -175px;
-    animation: waveAnim 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) -.125s infinite, swellAnim 7s ease -1.25s infinite;
-    
-    /* GÜNCELLENDİ: Farklı bir renk vermek yerine doğrudan ana zemin rengini kullanıyoruz */
-    background-color: var(--bg-base); 
-    
-    opacity: 1 !important;
-}
-    
-/* Performans artırılmış GPU ivmeli animasyonlar */
-@keyframes waveAnim {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-1600px); }
+@keyframes animStar {
+    from { transform: translateY(0px); }
+    to   { transform: translateY(-2000px); }
 }
 
-@keyframes swellAnim {
-    0%, 100% { top: -175px; }
-    50% { top: -160px; }
-}
-
-/* Mobil cihazlarda içerik hizalamasını korumak için */
-@media (max-width: 1024px) {
-    .hero-content-wrapper {
-        padding-left: 0;
-    }
-}
 
 /* --- İçerik (Markdown) --- */
 .markdown-content p {
