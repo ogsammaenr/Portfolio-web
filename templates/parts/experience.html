@@ -1,0 +1,14 @@
+<section class="section">
+    <h3 class="section-title">Deneyimler</h3>
+    <div class="experience-list">
+        {% for exp in experiences %}
+        <article class="experience-card">
+            <div class="exp-header">
+                <h4>{{ exp.role }} <span class="accent">@ {{ exp.company }}</span></h4>
+                <span class="exp-period">{{ exp.period }}</span>
+            </div>
+            <p>{{ exp.description }}</p>
+        </article>
+        {% endfor %}
+    </div>
+</section>

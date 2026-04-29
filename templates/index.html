@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Osman | Software Engineer</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        {% include "parts/nav.html" %}
+
+        <main class="main-content">
+            {% include "parts/hero.html" %}
+            
+            <section id="about" class="section">
+	            <h3 class="section-title">Hakkımda</h3>
+	            <div class="markdown-content">
+	                {{ about | safe }}
+	            </div>
+	        </section>
+            <section id="experience" class="section">
+                {% include "parts/experience.html" %}
+            </section>
+
+            <section id="projects" class="section">
+                {% include "parts/projects.html" %}
+            </section>
+        </main>
+
+        </div>
+</body>
+</html>

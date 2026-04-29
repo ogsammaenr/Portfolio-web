@@ -1,0 +1,275 @@
+/* --- CSS Değişkenleri ve Modern Sıfırlama (Reset) --- */
+:root {
+    --bg-color: #0d1117;
+    --surface-color: #161b22;
+    --surface-hover: #21262d;
+    --border-color: #30363d;
+    --text-main: #c9d1d9;
+    --text-muted: #8b949e;
+    --accent: #58a6ff;
+    
+    --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* --- Sabit Yan Menü (Sol) --- */
+.side-nav {
+    position: sticky;
+    top: 4rem;
+    height: fit-content;
+}
+
+.side-nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.side-nav a {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    transition: color 0.2s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.side-nav a:hover {
+    color: var(--accent);
+}
+
+/* --- Sağ Taraftaki İletişim Kartları --- */
+.side-contacts {
+    position: sticky;
+    top: 4rem;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contact-card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.contact-card:hover {
+    border-color: var(--accent);
+    transform: translateX(5px);
+}
+
+.contact-card .arrow {
+    color: var(--accent);
+    font-size: 0.8rem;
+}
+
+/* --- Ana Taşıyıcı ve Layout --- */
+.container {
+    max-width: 1200px; /* Genişliği artırdık */
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 200px 1fr 250px; /* Menü | İçerik | Contacts */
+    gap: 4rem;
+    padding: 4rem 2rem;
+}
+
+.main-content {
+    min-width: 0; /* Grid taşmalarını önlemek için */
+}
+
+.section {
+    margin-bottom: 4rem;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--text-main);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.5rem;
+}
+
+.accent {
+    color: var(--accent);
+}
+
+/* --- Hero Bölümü --- */
+.hero {
+    margin-bottom: 5rem;
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.hero h2 {
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.contacts {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.contact-link {
+    font-size: 0.9rem;
+    color: var(--accent);
+    transition: opacity 0.2s ease;
+}
+
+.contact-link:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
+/* --- İçerik (Markdown) --- */
+.markdown-content p {
+    margin-bottom: 1rem;
+    color: var(--text-muted);
+}
+
+/* --- Deneyimler --- */
+.experience-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.experience-card .exp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.5rem;
+}
+
+.experience-card h4 {
+    font-size: 1.1rem;
+}
+
+.exp-period {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+}
+
+.experience-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+/* --- Projeler (Grid Layout) --- */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.project-card {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--text-muted);
+    background-color: var(--surface-hover);
+}
+
+.project-header h4 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.project-desc {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    flex-grow: 1; /* Kart boylarını eşit tutar */
+    margin-bottom: 1.5rem;
+}
+
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+}
+
+.tech-stack li {
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+}
+
+/* --- Footer --- */
+.footer {
+    margin-top: 5rem;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--border-color);
+    padding-top: 2rem;
+}
+
+/* Mobil için Düzenleme */
+@media (max-width: 1024px) {
+    .container {
+        grid-template-columns: 1fr;
+        padding: 2rem 1.5rem;
+    }
+    
+    .side-nav, .side-contacts {
+        position: static;
+        margin-bottom: 2rem;
+    }
+    
+    .side-nav ul {
+        flex-direction: row;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 1rem;
+    }
+}

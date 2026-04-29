@@ -1,0 +1,14 @@
+[
+    {
+        "company": "X Teknoloji Şirketi",
+        "role": "Backend Stajyer",
+        "period": "Haziran 2025 - Ağustos 2025",
+        "description": "FastAPI kullanarak mikroservis mimarileri üzerinde çalışıldı ve API dökümantasyonları hazırlandı."
+    },
+    {
+        "company": "Üniversite Kulübü",
+        "role": "Yazılım Geliştirici",
+        "period": "Eylül 2024 - Halen",
+        "description": "Kulübün web sayfasının bakımı ve yeni özelliklerin eklenmesi görevleri üstlenildi."
+    }
+]

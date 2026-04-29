@@ -1,0 +1,16 @@
+[
+    {
+        "title": "FastAPI Portfolio",
+        "slug": "fastapi-portfolio",
+        "description": "JSON ve Markdown tabanlı minimalist portfolyo.",
+        "tech_stack": ["Python", "FastAPI"],
+        "link": "https://github.com/osman/portfolio"
+    },
+    {
+        "title": "Arch Setup Scripts",
+        "slug": "arch-setup",
+        "description": "Hyprland konfigürasyonlarını otomatize eden scriptler.",
+        "tech_stack": ["Bash", "Linux"],
+        "link": "https://github.com/osman/dotfiles"
+    }
+]

@@ -1,0 +1,20 @@
+<section class="section">
+    <h3 class="section-title">Projeler</h3>
+    <div class="projects-grid">
+        {% for project in projects %}
+        <a href="/project/{{ project.slug }}" class="project-card">
+            <article>
+                <header class="project-header">
+                    <h4>{{ project.title }}</h4>
+                </header>
+                <p class="project-desc">{{ project.description }}</p>
+                <ul class="tech-stack">
+                    {% for tech in project.tech_stack %}
+                        <li>{{ tech }}</li>
+                    {% endfor %}
+                </ul>
+            </article>
+        </a>
+        {% endfor %}
+    </div>
+</section>
