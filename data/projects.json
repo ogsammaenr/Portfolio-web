@@ -1,16 +1,66 @@
 [
     {
-        "title": "FastAPI Portfolio",
+        "title": "FastAPI Portfolio 1",
         "slug": "fastapi-portfolio",
         "description": "JSON ve Markdown tabanlı minimalist portfolyo.",
         "tech_stack": ["Python", "FastAPI"],
+        "pinned": true,
         "link": "https://github.com/osman/portfolio"
     },
     {
-        "title": "Arch Setup Scripts",
+        "title": "Arch Setup Scripts 1",
         "slug": "arch-setup",
         "description": "Hyprland konfigürasyonlarını otomatize eden scriptler.",
         "tech_stack": ["Bash", "Linux"],
+        "pinned": true,
+        "link": "https://github.com/osman/dotfiles"
+    },
+    {
+        "title": "FastAPI Portfolio 2",
+        "slug": "fastapi-portfolio",
+        "description": "JSON ve Markdown tabanlı minimalist portfolyo.",
+        "tech_stack": ["Python", "FastAPI"],
+        "pinned": true,
+        "link": "https://github.com/osman/portfolio"
+    },
+    {
+        "title": "FastAPI Portfolio 3",
+        "slug": "fastapi-portfolio",
+        "description": "JSON ve Markdown tabanlı minimalist portfolyo.",
+        "tech_stack": ["Python", "FastAPI"],
+        "pinned": true,
+        "link": "https://github.com/osman/portfolio"
+    },
+    {
+        "title": "Arch Setup Scripts 2",
+        "slug": "arch-setup",
+        "description": "Hyprland konfigürasyonlarını otomatize eden scriptler.",
+        "tech_stack": ["Bash", "Linux"],
+        "pinned": true,
+        "link": "https://github.com/osman/dotfiles"
+    },
+    {
+        "title": "FastAPI Portfolio 4",
+        "slug": "fastapi-portfolio",
+        "description": "JSON ve Markdown tabanlı minimalist portfolyo.",
+        "tech_stack": ["Python", "FastAPI"],
+        "pinned": true,
+        "link": "https://github.com/osman/portfolio"
+    },
+    {
+        "title": "Arch Setup asdfasdf 2",
+        "slug": "arch-setup",
+        "description": "Hyprland konfigürasyonlarını otomatize eden scriptler.",
+        "tech_stack": ["Bash", "Linux"],
+        "pinnde": false,
+        "link": "https://github.com/osman/dotfiles"
+    },
+    {
+        "title": "Arch Setup asdfasdf 3",
+        "slug": "arch-setup",
+        "description": "Hyprland konfigürasyonlarını otomatize eden scriptler.",
+        "tech_stack": ["Bash", "Linux"],
+        "pinnde": false,
         "link": "https://github.com/osman/dotfiles"
     }
 ]

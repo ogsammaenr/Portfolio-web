@@ -79,6 +79,8 @@ async def home(request: Request):
     projects_list = get_projects_data()
     experiences_list = get_experiences_data()
 
+    pinned_projects = [p for p in projects_list if p.get("pinned") is True]
+
     return templates.TemplateResponse(
         request=request,
         name="index.html",
@@ -86,6 +88,7 @@ async def home(request: Request):
             "about": about_html,
             "contacts": contact_info,
             "projects": projects_list,
+            "pinned_projects": pinned_projects,
             "experiences": experiences_list,
         },
     )

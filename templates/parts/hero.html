@@ -1,14 +1,6 @@
-<header class="hero" id="about">
+<header class="hero" id="hero">
     <div class="hero-content">
         <h1>Merhaba, ben <span class="accent">Osman</span>.</h1>
         <h2>Yazılım Mühendisliği Öğrencisi & Geliştirici</h2>
     </div>
-    <aside class="side-contacts" id="contact">
-        {% for platform, link in contacts.items() %}
-            <a href="{{ link }}" target="_blank" rel="noopener noreferrer" class="contact-card">
-                <span class="platform-name">{{ platform | capitalize }}</span>
-                <span class="arrow">↗</span>
-            </a>
-        {% endfor %}
-    </aside>
 </header>

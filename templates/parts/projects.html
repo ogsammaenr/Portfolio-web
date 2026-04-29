@@ -1,20 +1,41 @@
-<section class="section">
-    <h3 class="section-title">Projeler</h3>
-    <div class="projects-grid">
-        {% for project in projects %}
-        <a href="/project/{{ project.slug }}" class="project-card">
-            <article>
-                <header class="project-header">
-                    <h4>{{ project.title }}</h4>
-                </header>
-                <p class="project-desc">{{ project.description }}</p>
-                <ul class="tech-stack">
-                    {% for tech in project.tech_stack %}
-                        <li>{{ tech }}</li>
-                    {% endfor %}
-                </ul>
-            </article>
+<div class="section-header">
+    <h3 class="section-title">Öne Çıkanlar</h3>
+    <span class="swipe-hint">Otomatik Akış ➔</span>
+</div>
+
+<div class="carousel-container">
+    <div class="projects-carousel-3d">
+        {% for project in pinned_projects %}
+        <a href="/project/{{ project.slug }}" class="carousel-card-3d modern-card">
+            <header class="project-header">
+                <h4>{{ project.title }}</h4>
+                <span class="arrow">↗</span>
+            </header>
+            <ul class="tech-stack inline-stack">
+                {% for tech in project.tech_stack[:2] %}
+                    <li>{{ tech }}</li>
+                {% endfor %}
+            </ul>
         </a>
         {% endfor %}
     </div>
-</section>
+</div>
+
+<h3 class="section-title" style="margin-top: 5rem;">Tüm Projeler</h3>
+<div class="projects-list-wide">
+    {% for project in projects %}
+    <a href="/project/{{ project.slug }}" class="project-card-wide modern-card">
+        <div class="card-content">
+            <header class="project-header">
+                <h4>{{ project.title }}</h4>
+            </header>
+            <p class="project-desc">{{ project.description }}</p>
+            <ul class="tech-stack">
+                {% for tech in project.tech_stack %}
+                    <li>{{ tech }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </a>
+    {% endfor %}
+</div>
