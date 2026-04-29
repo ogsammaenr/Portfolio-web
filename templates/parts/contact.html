@@ -3,8 +3,15 @@
     <div class="bottom-contacts">
         {% for platform, link in contacts.items() %}
             <a href="{{ link }}" target="_blank" rel="noopener noreferrer" class="contact-card">
-                <span class="platform-name">{{ platform | capitalize }}</span>
-                <span class="arrow">↗</span>
+                
+                <div class="contact-info">
+                    <span class="platform-icon">
+                        {% include "icons/" ~ platform ~ ".html" ignore missing %}
+                    </span>
+                    <span class="platform-name">{{ platform | capitalize }}</span>
+                </div>
+                
+                <span class="arrow">{% include "icons/arrow.html" %}</span>
             </a>
         {% endfor %}
     </div>

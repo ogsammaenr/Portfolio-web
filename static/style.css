@@ -1,15 +1,31 @@
 /* --- CSS Değişkenleri ve Modern Sıfırlama (Reset) --- */
 :root {
-    --bg-color: #0d1117;
-    --surface-color: #161b22;
-    --surface-hover: #21262d;
-    --border-color: #30363d;
-    --text-main: #c9d1d9;
-    --text-muted: #8b949e;
-    --accent: #58a6ff;
+    /* Daha derin bir siyah ve ambiyans renkleri */
+    --bg-base: #030712; 
+    --bg-glow-1: rgba(56, 189, 248, 0.08); /* Siber mavi aydınlatma */
+    --bg-glow-2: rgba(139, 92, 246, 0.05); /* Zarif mor aydınlatma */
     
-    --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    /* Cam efekti (Glassmorphism) yüzeyleri */
+    --surface-color: rgba(17, 24, 39, 0.4);
+    --surface-hover: rgba(31, 41, 55, 0.6);
+    
+    /* İnce, parlayan sınırlar */
+    --border-color: rgba(255, 255, 255, 0.08);
+    --border-highlight: rgba(56, 189, 248, 0.5);
+    
+    /* Metin ve Vurgu renkleri */
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+    --accent: #38bdf8;
+    --accent-glow: 0 0 20px rgba(56, 189, 248, 0.6);
+    
+    --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
 }
 
 * {
@@ -18,12 +34,19 @@
     box-sizing: border-box;
 }
 
+/* --- Ana Arka Plan ve Işıklandırma (Ambient Lighting) --- */
 body {
-    background-color: var(--bg-color);
+    background-color: var(--bg-base);
+    /* Sabit, donanımı yormayan, CSS tabanlı arka plan ışık huzmeleri */
+    background-image: 
+        radial-gradient(circle at 15% 0%, var(--bg-glow-1) 0%, transparent 40%),
+        radial-gradient(circle at 85% 100%, var(--bg-glow-2) 0%, transparent 50%);
+    background-attachment: fixed;
     color: var(--text-main);
     font-family: var(--font-sans);
-    line-height: 1.6;
+    line-height: 1.7;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -33,149 +56,256 @@ a {
 
 /* --- Sabit Yan Menü (Sol) --- */
 .side-nav {
-    position: sticky;
-    top: 4rem;
-    height: fit-content;
+    position: fixed; /* Ekranın soluna çiviler */
+    top: 3rem;
+    left: 2rem;
+    z-index: 9999; /* En üst katman: Dalga ve Hero'nun üstünde kalır */
+    width: 200px;
 }
 
 .side-nav ul {
     list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+    padding: 0;
 }
 
 .side-nav a {
-    font-size: 0.9rem;
-    font-weight: 500;
+    font-size: 0.85rem;
+    font-weight: 600;
     color: var(--text-muted);
-    transition: color 0.2s ease;
+    transition: all 0.3s ease;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
+    position: relative;
+    padding-left: 0;
 }
 
+/* Hover durumunda menü öğelerine zarif bir çizgi ve parlama */
 .side-nav a:hover {
     color: var(--accent);
+    padding-left: 10px;
+    text-shadow: 0 0 10px rgba(56, 189, 248, 0.4);
 }
-
-/* --- Sağ Taraftaki İletişim Kartları --- */
-.contact-card {
-    background-color: var(--surface-color);
-    border: 1px solid var(--border-color);
-    padding: 1rem;
-    border-radius: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: all 0.3s ease;
+.side-nav a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+    box-shadow: var(--accent-glow);
 }
-
-.contact-card:hover {
-    border-color: var(--accent);
-    transform: translateX(5px);
-}
-
-.contact-card .arrow {
-    color: var(--accent);
-    font-size: 0.8rem;
+.side-nav a:hover::before {
+    width: 5px;
 }
 
 /* --- Ana Taşıyıcı ve Layout --- */
 .container {
-    max-width: 1400px; /* Genişliği 1200'den 1400'e çıkararak siteyi daha ferah yaptık */
+    max-width: 1400px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: 200px 1fr; /* 3. kolonu sildik! Artık sadece Menü ve İçerik var */
+    /* İlk kolon (220px) navigasyonun kapladığı boşluk için, içerik sağda kalır */
+    grid-template-columns: 220px 1fr;
     gap: 4rem;
     padding: 4rem 2rem;
-    align-items: start;
 }
 
+
+
 .main-content {
-    min-width: 0; /* Grid taşmalarını önlemek için */
+    min-width: 0;
 }
 
 .section {
-    margin-bottom: 4rem;
+    margin-bottom: 6rem;
 }
 
+/* Işıklı Başlıklar */
 .section-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
     color: var(--text-main);
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 0.5rem;
+    padding-bottom: 0.75rem;
+    position: relative;
+    display: inline-block;
+}
+
+/* Başlık altına uzanan neon çizgi */
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+    box-shadow: 0 1px 10px rgba(56, 189, 248, 0.4);
 }
 
 .accent {
     color: var(--accent);
+    text-shadow: var(--accent-glow); /* Işıltılı vurgu metni */
 }
 
 /* --- Hero Bölümü --- */
 .hero {
-    margin-bottom: 5rem;
+    margin-bottom: 6rem;
+    position: relative;
 }
 
 .hero h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    letter-spacing: -0.05em;
+    font-size: 3.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
     margin-bottom: 0.5rem;
+    line-height: 1.1;
 }
 
 .hero h2 {
     font-size: 1.25rem;
     font-weight: 400;
     color: var(--text-muted);
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
 }
 
-.contacts {
+/* --- Wave Hero Ana Taşıyıcı --- */
+.hero.wave-hero {
+    position: relative;
+    width: 100vw; /* Görüntüleme alanının %100 genişliği */
+    height: 100vh; /* Görüntüleme alanının %100 yüksekliği */
+    margin: 0;
+    padding: 0;
     display: flex;
-    gap: 1rem;
-    flex-wrap: wrap;
+    align-items: center;
+    background: radial-gradient(ellipse at center, rgba(31, 41, 55, 0.6) 0%, var(--bg-base) 80%);
+    z-index: 5; /* Navigasyondan (9999) daha düşük bir değer */
 }
 
-.contact-link {
-    font-size: 0.9rem;
-    color: var(--accent);
-    transition: opacity 0.2s ease;
+.hero-glow-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 30%, var(--bg-glow-1) 0%, transparent 60%);
+    z-index: 0;
 }
 
-.contact-link:hover {
-    opacity: 0.8;
-    text-decoration: underline;
+.hero-content-wrapper {
+    margin-left: 250px; /* Menü genişliği + boşluk */
+    z-index: 10;
+}
+
+/* (Status badge, desc, buton vs. özellikleri önceki kodla aynı kalabilir) */
+
+/* --- Okyanus ve Dalga Efekti (Dark Mode Uyarlanmış) --- */
+.ocean {
+    height: 5%;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background: var(--bg-base);
+    z-index: 6; /* Hero zemininin üstünde, içeriğin altında */
+}
+
+.wave {
+    background-color: var(--bg-base);
+    -webkit-mask-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg);
+    mask-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/85486/wave.svg);
+    position: absolute;
+    top: -198px;
+    width: 6400px;
+    height: 198px;
+    animation: waveAnim 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) infinite;
+    transform: translate3d(0, 0, 0);
+}
+
+.wave:nth-of-type(2) {
+    top: -175px;
+    animation: waveAnim 7s cubic-bezier(0.36, 0.45, 0.63, 0.53) -.125s infinite, swellAnim 7s ease -1.25s infinite;
+    opacity: 0.3; /* Arkadaki dalganın şeffaflığı azaltıldı, derinlik katıldı */
+}
+
+/* Performans artırılmış GPU ivmeli animasyonlar */
+@keyframes waveAnim {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-1600px); }
+}
+
+@keyframes swellAnim {
+    0%, 100% { top: -175px; }
+    50% { top: -160px; }
+}
+
+/* Mobil cihazlarda içerik hizalamasını korumak için */
+@media (max-width: 1024px) {
+    .hero-content-wrapper {
+        padding-left: 0;
+    }
 }
 
 /* --- İçerik (Markdown) --- */
 .markdown-content p {
-    margin-bottom: 1rem;
+    margin-bottom: 1.2rem;
     color: var(--text-muted);
+    font-size: 1.05rem;
 }
 
 /* --- Deneyimler --- */
 .experience-list {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 2.5rem;
+    border-left: 1px solid rgba(255, 255, 255, 0.05); /* Sol zaman çizelgesi hattı */
+    padding-left: 2rem;
+}
+
+.experience-card {
+    position: relative;
+}
+
+/* Zaman çizelgesi noktaları (Glow efekti ile) */
+.experience-card::before {
+    content: '';
+    position: absolute;
+    left: -2.35rem;
+    top: 0.4rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--bg-base);
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 10px var(--accent);
+    transition: all 0.3s ease;
+}
+
+.experience-card:hover::before {
+    background: var(--accent);
+    box-shadow: 0 0 20px var(--accent);
 }
 
 .experience-card .exp-header {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
 }
 
 .experience-card h4 {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
 }
 
 .exp-period {
     font-size: 0.85rem;
-    color: var(--text-muted);
+    color: var(--accent);
     font-family: var(--font-mono);
+    background: rgba(56, 189, 248, 0.1);
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    border: 1px solid rgba(56, 189, 248, 0.2);
 }
 
 .experience-card p {
@@ -183,60 +313,63 @@ a {
     font-size: 0.95rem;
 }
 
-/* --- Projeler (Grid Layout) --- */
-/* --- Modern Kart Tasarımı & Hover Efektleri --- */
+/* --- Modern Kart Tasarımı & Işıklandırma (Glassmorphism + Neon) --- */
 .modern-card {
-    background: linear-gradient(145deg, rgba(22, 27, 34, 0.6), rgba(22, 27, 34, 0.9));
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Pürüzsüz yaylanma efekti */
+    background: var(--surface-color);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     overflow: hidden;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); /* Derinlik gölgesi */
 }
 
+/* Kartın içinden gelen zarif ışıltı */
 .modern-card::before {
-    /* Hover durumunda içten hafif bir parlama efekti */
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    border-radius: 12px;
-    box-shadow: inset 0 0 0 1px transparent;
+    border-radius: 16px;
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
     transition: all 0.4s ease;
     z-index: 0;
+    pointer-events: none;
 }
 
 .modern-card:hover {
-    transform: translateY(-5px);
-    background: linear-gradient(145deg, rgba(33, 38, 45, 0.8), rgba(22, 27, 34, 1));
-    box-shadow: 0 10px 30px -10px rgba(88, 166, 255, 0.15); /* Modern mavi parıltı */
-}
-
-.modern-card:hover::before {
-    box-shadow: inset 0 0 0 1px var(--accent);
+    transform: translateY(-8px);
+    background: var(--surface-hover);
+    border-color: var(--border-highlight);
+    /* Dışarıya ve içeriye doğru neon yansıması */
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.6), 
+        0 0 20px rgba(56, 189, 248, 0.15),
+        inset 0 0 20px rgba(56, 189, 248, 0.05);
 }
 
 .modern-card > * {
     position: relative;
-    z-index: 1; /* İçeriği parlamanın üstünde tut */
+    z-index: 1;
 }
 
-/* --- Yeni 3D Odaklı Karusel --- */
+/* --- Yeni 3D Odaklı Karusel Yapısı (Sadece Görsel Güncelleme) --- */
 .carousel-container {
     position: relative;
     width: 100%;
-    height: 220px; /* Kartların ekrana sığması için yüksekliği ayarladık */
-    margin: 2rem 0;
+    height: 240px; 
+    margin: 3rem 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* Kenarlardan çok taşanları gizler */
+    overflow: hidden;
 }
 
 .projects-carousel-3d {
     position: relative;
     width: 100%;
-    max-width: 600px; /* Merkez kartın maksimum kaplayacağı alan */
+    max-width: 650px;
     height: 100%;
 }
 
@@ -244,55 +377,48 @@ a {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 320px;
-    height: 150px;
+    width: 340px;
+    height: 160px;
     padding: 1.5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    
-    /* Kartların geçiş yumuşaklığı (cubic-bezier ile yağ gibi akar) */
     transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-    
-    /* Başlangıçta görünmez ve arkada */
     transform: translate(-50%, -50%) scale(0.5);
     opacity: 0;
     z-index: 1;
-    pointer-events: none; /* Odakta olmayan kartlara tıklanmayı engeller */
+    pointer-events: none;
 }
 
-/* --- Karusel Durum (State) Sınıfları --- */
-
-/* 1. Merkezdeki Odak Kartı */
 .carousel-card-3d.center {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
     z-index: 3;
     pointer-events: auto;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    border-color: rgba(56, 189, 248, 0.3);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(56, 189, 248, 0.1);
 }
 
-/* 2. Soldaki Küçük Kart */
 .carousel-card-3d.left {
-    transform: translate(-140%, -50%) scale(0.85); /* Oranları mükemmelleştirdik */
-    opacity: 0.5;
+    transform: translate(-130%, -50%) scale(0.85);
+    opacity: 0.4;
     z-index: 2;
+    filter: blur(2px); /* Odak dışı olanlara derinlik (blur) kattık */
 }
 
-/* 3. Sağdaki Küçük Kart */
 .carousel-card-3d.right {
-    transform: translate(40%, -50%) scale(0.85); /* Oranları mükemmelleştirdik */
-    opacity: 0.5;
+    transform: translate(30%, -50%) scale(0.85);
+    opacity: 0.4;
     z-index: 2;
+    filter: blur(2px);
 }
 
-/* Merkez Kart İçin Hover (Üzerine gelme) */
 .carousel-card-3d.center:hover {
-    transform: translate(-50%, -55%) scale(1.05); /* scale oranını biraz artırdık */
-    box-shadow: 0 20px 40px -10px rgba(88, 166, 255, 0.3);
+    transform: translate(-50%, -55%) scale(1.02);
+    border-color: var(--accent);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9), 0 0 40px rgba(56, 189, 248, 0.25);
 }
 
-    
 /* --- Geniş Detaylı Kartlar --- */
 .projects-list-wide {
     display: flex;
@@ -306,46 +432,16 @@ a {
     flex-direction: column;
 }
 
+.project-card-wide .project-header h4 {
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
 .project-card-wide .project-desc {
     margin: 1rem 0 1.5rem 0;
     font-size: 1rem;
     color: var(--text-muted);
     line-height: 1.7;
-}
-
-.projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-}
-
-.project-card {
-    background-color: var(--surface-color);
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.project-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--text-muted);
-    background-color: var(--surface-hover);
-}
-
-.project-header h4 {
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
-}
-
-.project-desc {
-    color: var(--text-muted);
-    font-size: 0.95rem;
-    flex-grow: 1; /* Kart boylarını eşit tutar */
-    margin-bottom: 1.5rem;
 }
 
 .tech-stack {
@@ -356,22 +452,65 @@ a {
 }
 
 .tech-stack li {
-    background-color: var(--bg-color);
-    border: 1px solid var(--border-color);
-    padding: 0.2rem 0.6rem;
-    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px; /* Daha modern hap tasarımı */
     font-size: 0.75rem;
     font-family: var(--font-mono);
     color: var(--text-muted);
+    transition: all 0.3s ease;
 }
 
+.modern-card:hover .tech-stack li {
+    border-color: rgba(56, 189, 248, 0.3);
+    color: var(--text-main);
+}
+
+/* --- İletişim Kartları --- */
+.bottom-contacts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.contact-card {
+    background: var(--surface-color);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.contact-card:hover {
+    background: var(--surface-hover);
+    border-color: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4), 0 0 15px rgba(56, 189, 248, 0.2);
+}
+
+.contact-card .arrow {
+    color: var(--accent);
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.contact-card:hover .arrow {
+    transform: translate(3px, -3px);
+    text-shadow: var(--accent-glow);
+}
 
 /* --- Vanilla JS Intersection Observer Animasyon Sınıfları --- */
 .reveal {
     opacity: 0;
-    transform: translateY(30px);
-    /* Kartların görünürkenki yumuşaklığı */
-    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .reveal.active {
@@ -379,20 +518,38 @@ a {
     transform: translateY(0);
 }
 
-.modern-card.active:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 30px -10px rgba(88, 166, 255, 0.15);
+
+/* SVG ikonları için genel kurallar */
+svg {
+    transition: all 0.3s ease;
 }
 
+/* Hover durumunda ikonlara neon parlama ekle */
+.contact-card:hover svg, .modern-card:hover svg {
+    color: var(--accent);
+    filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.6)); /* SVG'ler için glow efekti */
+}
 
+/* İletişim kartı içindeki ikon ve metin grubunu hizala */
+.contact-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; /* İkon ile yazı arasındaki boşluk */
+}
+
+/* SVG ikonların boyutunu metinle eşitle */
+.platform-icon svg {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
 
 /* --- Footer --- */
 .footer {
-    margin-top: 5rem;
+    margin-top: 6rem;
     text-align: center;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.2);
     font-size: 0.85rem;
-    border-top: 1px solid var(--border-color);
     padding-top: 2rem;
 }
 
@@ -401,17 +558,25 @@ a {
     .container {
         grid-template-columns: 1fr;
         padding: 2rem 1.5rem;
+        gap: 3rem;
     }
     
-    .side-nav, .side-contacts {
-        position: static;
-        margin-bottom: 2rem;
-    }
+    /* --- Yan Menüyü Hero Üzerine Sabitle --- */
+.side-nav {
+    position: fixed; /* Ekranın soluna sabitler */
+    top: 4rem;
+    left: 2rem;
+    z-index: 1000; /* Hero ve dalgaların üzerinde kalması için */
+    width: 180px; /* Grid kolonunla uyumlu genişlik */
+}
     
     .side-nav ul {
         flex-direction: row;
-        justify-content: space-between;
-        border-bottom: 1px solid var(--border-color);
-        padding-bottom: 1rem;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    .experience-list {
+        padding-left: 1rem;
     }
 }
