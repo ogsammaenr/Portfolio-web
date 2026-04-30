@@ -1,66 +1,75 @@
 [
     {
-        "title": "FastAPI Portfolio 1",
-        "slug": "fastapi-portfolio",
-        "description": "JSON ve Markdown tabanlı minimalist portfolyo.",
-        "tech_stack": ["Python", "FastAPI"],
+        "slug": "portfolio-web",
+        "name": "Portfolio Web",
+        "description": "Bu site :D",
+        "github": "https://github.com/ogsammaenr/Portfolio-web.git",
         "pinned": true,
-        "link": "https://github.com/osman/portfolio"
+        "tech_stack": ["python", "html", "css", "javascript"]
     },
     {
-        "title": "Arch Setup Scripts 1",
-        "slug": "arch-setup",
-        "description": "Hyprland konfigürasyonlarını otomatize eden scriptler.",
-        "tech_stack": ["Bash", "Linux"],
+        "slug": "inventory-builder",
+        "name": "Minecraft Inventory Builder",
+        "description": "Minecraft envanterinizi istediğiniz gibi düzenleyebileceğiniz bir web uygulaması.",
+        "github": "https://github.com/ogsammaenr/minecraft-inventory-builder.git",
+        "pinned": false,
+        "tech_stack": ["python", "html", "css", "javascript"]
+    },
+    {
+        "slug": "takim-siralama",
+        "name": "Takım Sıralayıcı",
+        "description": "Balıkçılık turnuvalarında takım sıralaması yapmanıza yardımcı olan mobil uygulama.",
+        "github": "https://github.com/ogsammaenr/TakimYerlestirme.git",
         "pinned": true,
-        "link": "https://github.com/osman/dotfiles"
+        "tech_stack": ["java", "android"]
     },
     {
-        "title": "FastAPI Portfolio 2",
-        "slug": "fastapi-portfolio",
-        "description": "JSON ve Markdown tabanlı minimalist portfolyo.",
-        "tech_stack": ["Python", "FastAPI"],
+        "slug": "mini-stream",
+        "name": "Mini Stream",
+        "description": "Şarkıları indexleyerek düşük bellek tüketimi ile çalma listeleri oluşturmanıza olanak tanıyan bir müzik çalar servisi.",
+        "github": "https://github.com/ogsammaenr/Mini-Stream.git",
         "pinned": true,
-        "link": "https://github.com/osman/portfolio"
+        "tech_stack": ["C", "Makefile", "Python", "JavaScript", "CSS", "HTML"]
     },
     {
-        "title": "FastAPI Portfolio 3",
-        "slug": "fastapi-portfolio",
-        "description": "JSON ve Markdown tabanlı minimalist portfolyo.",
-        "tech_stack": ["Python", "FastAPI"],
+        "slug": "xanth-help",
+        "name": "Ticket plugini",
+        "description": "Minecraft sunucuları için bilet sistemi plugini.",
+        "github": "https://github.com/ogsammaenr/XanthHelp.git",
         "pinned": true,
-        "link": "https://github.com/osman/portfolio"
+        "tech_stack": ["java", "papermc"]
     },
     {
-        "title": "Arch Setup Scripts 2",
-        "slug": "arch-setup",
-        "description": "Hyprland konfigürasyonlarını otomatize eden scriptler.",
-        "tech_stack": ["Bash", "Linux"],
+        "slug": "custom-generator",
+        "name": "Custon Generator",
+        "description": "Minecraft Skyblock sunuculari için özel generator plugini.",
+        "github": "https://github.com/ogsammaenr/Custom-Generator.git",
         "pinned": true,
-        "link": "https://github.com/osman/dotfiles"
+        "tech_stack": ["java", "papermc"]
     },
     {
-        "title": "FastAPI Portfolio 4",
-        "slug": "fastapi-portfolio",
-        "description": "JSON ve Markdown tabanlı minimalist portfolyo.",
-        "tech_stack": ["Python", "FastAPI"],
+        "slug": "conduit-fly",
+        "name": "Conduit Fly",
+        "description": "Minecraft Skyblock sunucuları için uçma mekaniği plugini,",
+        "github": "https://github.com/ogsammaenr/ConduitFly.git",
         "pinned": true,
-        "link": "https://github.com/osman/portfolio"
+        "tech_stack": ["java", "papermc"]
     },
     {
-        "title": "Arch Setup asdfasdf 2",
-        "slug": "arch-setup",
-        "description": "Hyprland konfigürasyonlarını otomatize eden scriptler.",
-        "tech_stack": ["Bash", "Linux"],
-        "pinnde": false,
-        "link": "https://github.com/osman/dotfiles"
+        "slug": "xanth-commands",
+        "name": "Xanth Commands",
+        "description": "minecraft sunucuları için basit komutlar içeren plugin.",
+        "github": "https://github.com/ogsammaenr/XanthCommands.git",
+        "pinned": true,
+        "tech_stack": ["java", "papermc"]
     },
     {
-        "title": "Arch Setup asdfasdf 3",
-        "slug": "arch-setup",
-        "description": "Hyprland konfigürasyonlarını otomatize eden scriptler.",
-        "tech_stack": ["Bash", "Linux"],
-        "pinnde": false,
-        "link": "https://github.com/osman/dotfiles"
+        "slug": "ogskyblock",
+        "name": "OGSkyblock",
+        "description": "FabricMC API'si kullanilarak geliştirilen Minecraft Skyblock modu.",
+        "github": "https://github.com/ogsammaenr/OGSkyBlock.git",
+        "pinned": false,
+        "tech_stack": ["java", "fabricmc"]
     }
+
 ]

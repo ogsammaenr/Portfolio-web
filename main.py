@@ -27,9 +27,7 @@ DATA_DIR = Path("data")
 
 
 SMTP_SERVER = os.getenv("SMTP_SERVER", "smtp.gmail.com")
-SMTP_PORT = int(
-    os.getenv("SMTP_PORT", 465)
-)  # Port numarasının integer olması gerektiği için çeviriyoruz
+SMTP_PORT = int(os.getenv("SMTP_PORT", 465))
 SENDER_EMAIL = os.getenv("SENDER_EMAIL")
 SENDER_PASSWORD = os.getenv("SENDER_PASSWORD")
 RECEIVER_EMAIL = os.getenv("RECEIVER_EMAIL")
@@ -111,24 +109,22 @@ async def home(request: Request):
     )
 
 
-@app.get("/project/{slug}", response_class=HTMLResponse)
-async def project_detail(request: Request, slug: str):
+# --- API: PROJE DETAYLARINI MODAL İÇİN JSON OLARAK VER ---
+@app.get("/api/project/{slug}")
+async def api_project_detail(slug: str):
     project = get_project_by_slug(slug)
-
     if not project:
         raise HTTPException(status_code=404, detail="Proje bulunamadı")
 
     detail_html = get_project_markdown(slug)
-
     if not detail_html:
-        # Eğer JSON'da var ama .md dosyası henüz yoksa bir uyarı gösterelim
         detail_html = "<p>Bu projenin detaylı açıklaması henüz eklenmedi.</p>"
 
-    return templates.TemplateResponse(
-        request=request,
-        name="project_detail.html",
-        context={"project": project, "content": detail_html},
-    )
+    return {
+        "name": project.get("name"),
+        "github": project.get("github"),
+        "content": detail_html,
+    }
 
 
 @app.post("/send-message")
@@ -178,6 +174,4 @@ async def send_message(
         # İstersen burada bir hata sayfasına yönlendirme yapabilirsin
 
     # 4. PRG (Post-Redirect-Get) MİMARİSİ
-    # Form gönderildikten sonra sayfayı yenileyince "Formu tekrar gönder" uyarısı
-    # çıkmaması için kullanıcıyı doğrudan ana sayfaya (iletişim bölümüne) yönlendiriyoruz.
     return RedirectResponse(url="/?status=success#contact", status_code=303)

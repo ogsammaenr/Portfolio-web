@@ -34,5 +34,35 @@
         </main>
 
     </div>
+
+    <!-- SİBER MODAL (POPUP) YAPISI -->
+    <div id="project-modal" class="cyber-modal">
+        <!-- Arka planı bulanıklaştıran tıklanabilir katman -->
+        <div class="modal-backdrop" id="modal-backdrop"></div>
+    
+        <div class="modal-content">
+            <!-- Terminal Tarzı Üst Bar -->
+            <div class="modal-header">
+                <div class="modal-title-group">
+                    <span class="pulse-dot"></span>
+                    <h3 id="modal-title" class="glitch-title" style="font-size: 1.2rem; margin: 0;">Bağlantı Kuruluyor...</h3>
+                </div>
+                <button id="modal-close" class="close-btn">[ X ]</button>
+            </div>
+        
+            <!-- İsteğe Bağlı GitHub Butonu -->
+            <div id="modal-github-wrapper" class="modal-meta" style="display: none; padding: 15px 20px 0;">
+                <a id="modal-github-link" href="#" target="_blank" class="contact-card mini-card" style="width: max-content; padding: 10px 15px;">
+                    <span class="platform-icon">{% include "icons/github.html" ignore missing %}</span>
+                    <span class="platform-name">Kaynak Kod</span>
+                </a>
+            </div>
+        
+            <!-- Markdown İçeriğinin Basılacağı Alan -->
+            <div id="modal-body" class="markdown-content modal-body-scroll">
+                <div class="terminal-loader">Arşiv verileri çekiliyor..._</div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

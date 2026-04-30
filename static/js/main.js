@@ -142,4 +142,75 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
+
+    //=============================================
+    
+
+    // --- PROJE MODAL (POPUP) MOTORU ---
+    const modal = document.getElementById('project-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalBody = document.getElementById('modal-body');
+    const modalClose = document.getElementById('modal-close');
+    const modalBackdrop = document.getElementById('modal-backdrop');
+    const modalGithubWrapper = document.getElementById('modal-github-wrapper');
+    const modalGithubLink = document.getElementById('modal-github-link');
+
+    // /project/ ile başlayan tüm linkleri bul
+    const projectLinks = document.querySelectorAll('a[href^="/project/"]');
+
+    const openModal = () => {
+        modal.classList.add('is-active');
+        document.body.style.overflow = 'hidden'; // Ana sayfanın arkada kaymasını engelle
+    };
+
+    const closeModal = () => {
+        modal.classList.remove('is-active');
+        document.body.style.overflow = ''; 
+        
+        // Modal kapanırken içeriği sıfırla ki bir sonraki açılışta eski proje görünmesin
+        setTimeout(() => {
+            modalTitle.textContent = 'Bağlantı Kuruluyor...';
+            modalBody.innerHTML = '<div class="terminal-loader">Arşiv verileri çekiliyor..._</div>';
+            modalGithubWrapper.style.display = 'none';
+        }, 300);
+    };
+
+    // Kapatma Eventleri (Butona basınca, boşluğa tıklayınca veya ESC tuşuna basınca)
+    if(modalClose) modalClose.addEventListener('click', closeModal);
+    if(modalBackdrop) modalBackdrop.addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('is-active')) closeModal();
+    });
+
+    // Proje Tıklama Motoru
+    projectLinks.forEach(link => {
+        link.addEventListener('click', async (e) => {
+            e.preventDefault(); // Sayfanın değişmesini engelle!
+            openModal();
+
+            // Linkten slug'ı çıkar (Örn: /project/arch-setup -> arch-setup)
+            const slug = link.getAttribute('href').split('/').pop();
+
+            try {
+                // Arka planda Python API'mıza istek at
+                const response = await fetch(`/api/project/${slug}`);
+                if (!response.ok) throw new Error('Ağ hatası');
+                
+                const data = await response.json();
+                
+                // Verileri Modal içine yerleştir
+                modalTitle.textContent = data.name;
+                modalBody.innerHTML = data.content;
+                
+                if (data.github) {
+                    modalGithubLink.href = data.github;
+                    modalGithubWrapper.style.display = 'block';
+                }
+
+            } catch (error) {
+                modalBody.innerHTML = '<p style="color: #ef4444;">Sistem Hatası: Arşiv verisi çekilemedi. Veri tabanı bağlantısını kontrol edin.</p>';
+            }
+        });
+    });
+
 })

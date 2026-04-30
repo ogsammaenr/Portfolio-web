@@ -940,3 +940,117 @@ svg {
         padding-left: 1rem;
     }
 }
+
+/* --- SİBER MODAL (POPUP) MİMARİSİ --- */
+.cyber-modal {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* Gizliyken tıklamaları engeller */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.cyber-modal.is-active {
+    pointer-events: all;
+    opacity: 1;
+}
+
+.modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px); /* Cam efekti */
+}
+
+
+
+.cyber-modal.is-active .modal-content {
+    transform: translateY(0) scale(1);
+}
+
+
+.modal-header, .modal-meta, .modal-body-scroll {
+    position: relative;
+    z-index: 1; 
+}
+
+.modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 850px;
+    max-height: 85vh;
+    
+    /* Zemin: Temiz, karanlık ve yarı saydam */
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(15px); 
+    
+    border: 1px solid rgba(56, 189, 248, 0.4); /* İnce neon çerçeve */
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    
+    transform: translateY(30px) scale(0.95);
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+    
+    /* İŞTE SİHİR BURADA: Arka plana vuran devasa siber ışıma (Glow) */
+    animation: ambient-neon-glow 4s infinite alternate ease-in-out;
+}
+
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid rgba(56, 189, 248, 0.3);
+    background: rgba(0, 0, 0, 0.5); 
+}
+
+
+.close-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #ef4444; /* Kırmızı hata/kapatma rengi */
+}
+
+.modal-body-scroll {
+    padding: 20px 30px;
+    overflow-y: auto; /* İçerik uzunsa sadece burası kayar */
+    flex-grow: 1;
+}
+
+.terminal-loader {
+    color: var(--accent, #38bdf8);
+    font-family: 'Courier New', Courier, monospace;
+    animation: blink-cursor 1s step-end infinite;
+}
+
+
+
+
+@keyframes ambient-neon-glow {
+    0% {
+        box-shadow: 
+            0 20px 50px rgba(0, 0, 0, 0.9),          /* Karartıcı fiziksel gölge */
+            0 0 60px 10px rgba(56, 189, 248, 0.15);  /* Arkaya vuran zayıf neon */
+    }
+    100% {
+        box-shadow: 
+            0 20px 50px rgba(0, 0, 0, 0.9),          /* Karartıcı fiziksel gölge */
+            0 0 100px 30px rgba(56, 189, 248, 0.35), /* Arkaya vuran güçlü neon */
+            0 0 150px 50px rgba(56, 189, 248, 0.1);  /* En dışa yayılan sönük aura */
+    }
+}
