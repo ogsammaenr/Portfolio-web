@@ -1,18 +1,80 @@
-<section id="contact" class="section">
-    <h3 class="section-title">İletişim</h3>
+<section id="contact" class="contact-section">
+    <div class="section-heading">
+        <h2 class="glitch-title">İletişim<span class="accent">.</span></h2>
+        <p class="section-desc">Ağ bağlantıları ve doğrudan sistem erişimi.</p>
+    </div>
+
+    <!-- SOSYAL MEDYA LİNKLERİ & FORM BUTONU -->
     <div class="bottom-contacts">
+        <!-- Jinja2 Döngüsü: E-posta ise form butonuna çevir, değilse normal link bas -->
         {% for platform, link in contacts.items() %}
-            <a href="{{ link }}" target="_blank" rel="noopener noreferrer" class="contact-card">
-                
-                <div class="contact-info">
-                    <span class="platform-icon">
-                        {% include "icons/" ~ platform ~ ".html" ignore missing %}
-                    </span>
-                    <span class="platform-name">{{ platform | capitalize }}</span>
-                </div>
-                
-                <span class="arrow">{% include "icons/arrow.html" %}</span>
-            </a>
+            
+            {% if platform == 'email' or platform == 'mail' %}
+                <!-- E-POSTA İÇİN TETİKLEYİCİ BUTON -->
+                <button id="toggle-form-btn" class="contact-card toggle-btn">
+                    <div class="contact-info">
+                        <span class="platform-icon">
+                            {% include "icons/" ~ platform ~ ".html" ignore missing %}
+                        </span>
+                        <span class="platform-name">Sistem Mesajı Gönder</span>
+                    </div>
+                    <!-- Tıklanınca aşağı dönecek ok -->
+                    <span class="arrow form-arrow">{% include "icons/arrow.html" ignore missing %}</span>
+                </button>
+            
+            {% else %}
+                <!-- DİĞER SOSYAL MEDYA LİNKLERİ (GitHub, LinkedIn vb.) -->
+                <a href="{{ link }}" target="_blank" rel="noopener noreferrer" class="contact-card">
+                    <div class="contact-info">
+                        <span class="platform-icon">
+                            {% include "icons/" ~ platform ~ ".html" ignore missing %}
+                        </span>
+                        <span class="platform-name">{{ platform | capitalize }}</span>
+                    </div>
+                    <span class="arrow">{% include "icons/arrow.html" ignore missing %}</span>
+                </a>
+            {% endif %}
+
         {% endfor %}
+    </div>
+    <!-- YENİ: GENİŞLEYEN FORM KAPSAYICISI -->
+    <div id="expandable-form-wrapper" class="expandable-wrapper">
+        <!-- CSS Grid hack'inin çalışması için iç sarmalayıcı -->
+        <div class="expandable-inner">
+            
+            <div class="contact-container form-margin-top">
+                <!-- Bir önceki adımda hazırladığımız Siber Form -->
+                <form class="cyber-form" action="/send-message" method="POST">
+                    
+                    <div class="honey-pot" aria-hidden="true">
+                        <input type="text" name="system_bot_check" tabindex="-1" autocomplete="off">
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" class="cyber-input" required placeholder=" ">
+                            <label for="name" class="cyber-label">Ad Soyad</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" class="cyber-input" required placeholder=" ">
+                            <label for="email" class="cyber-label">E-Posta Adresi</label>
+                        </div>
+                        <div class="form-group full-width">
+                            <input type="text" id="subject" name="subject" class="cyber-input" required placeholder=" ">
+                            <label for="subject" class="cyber-label">Konu Başlığı</label>
+                        </div>
+                        <div class="form-group full-width">
+                            <textarea id="message" name="message" class="cyber-input cyber-textarea" rows="5" required placeholder=" "></textarea>
+                            <label for="message" class="cyber-label">İçerik</label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn primary-btn submit-btn">
+                        <span>İletimi Başlat</span>
+                    </button>
+                </form>
+            </div>
+
+        </div>
     </div>
 </section>

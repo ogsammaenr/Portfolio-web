@@ -2,10 +2,18 @@ import json
 from pathlib import Path
 
 import markdown
-from fastapi import FastAPI, HTTPException, Request
+import os
+import smtplib
+from fastapi import FastAPI, HTTPException, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+
+from email.message import EmailMessage
+from fastapi.responses import RedirectResponse
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = FastAPI()
 
@@ -16,6 +24,15 @@ app.mount(
 )  # CSS eklediğinde açabilirsin
 
 DATA_DIR = Path("data")
+
+
+SMTP_SERVER = os.getenv("SMTP_SERVER", "smtp.gmail.com")
+SMTP_PORT = int(
+    os.getenv("SMTP_PORT", 465)
+)  # Port numarasının integer olması gerektiği için çeviriyoruz
+SENDER_EMAIL = os.getenv("SENDER_EMAIL")
+SENDER_PASSWORD = os.getenv("SENDER_PASSWORD")
+RECEIVER_EMAIL = os.getenv("RECEIVER_EMAIL")
 
 
 def get_about_content():
@@ -112,3 +129,55 @@ async def project_detail(request: Request, slug: str):
         name="project_detail.html",
         context={"project": project, "content": detail_html},
     )
+
+
+@app.post("/send-message")
+async def send_message(
+    name: str = Form(...),
+    email: str = Form(...),
+    subject: str = Form(...),
+    message: str = Form(...),
+    system_bot_check: str = Form(default=""),  # YENİ: Gizli Honeypot Alanı
+):
+    # 1. ANTI-SPAM (HONEYPOT) KONTROLÜ
+    # Botlar CSS okuyamaz, gizli olan bu alanı görüp doldururlar.
+    # Eğer bu alan boş değilse, bu kesinlikle bir bottur.
+    if system_bot_check != "":
+        print(f"[GÜVENLİK UYARISI] Spam bot engellendi. Hedef: {email}")
+        # Bota başarılı olmuş gibi davranıp sayfaya geri yolluyoruz (Tersine Mühendislik)
+        return RedirectResponse(url="/#contact", status_code=303)
+
+    # 2. E-POSTA PAKETİNİ HAZIRLAMA (Bloat-free, standart kütüphane)
+    msg = EmailMessage()
+    msg["Subject"] = f"[Portfolyo Sistem Mesajı] {subject}"
+    msg["From"] = SENDER_EMAIL
+    msg["To"] = RECEIVER_EMAIL
+
+    # Mesajın içeriği
+    body = f"""
+    Sistem üzerinden yeni bir iletişim protokolü başlatıldı.
+
+    [GÖNDEREN BİLGİLERİ]
+    Alias / İsim: {name}
+    Geri Dönüş Adresi: {email}
+    
+    [SİSTEM MESAJI]
+    {message}
+    """
+    msg.set_content(body)
+
+    # 3. SMTP SUNUCUSUNA BAĞLANIP İLETİMİ GERÇEKLEŞTİRME
+    try:
+        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT) as server:
+            server.login(SENDER_EMAIL, SENDER_PASSWORD)
+            server.send_message(msg)
+            print("[BAŞARILI] Sistem mesajı iletildi.")
+
+    except Exception as e:
+        print(f"[HATA] İletim başarısız: {e}")
+        # İstersen burada bir hata sayfasına yönlendirme yapabilirsin
+
+    # 4. PRG (Post-Redirect-Get) MİMARİSİ
+    # Form gönderildikten sonra sayfayı yenileyince "Formu tekrar gönder" uyarısı
+    # çıkmaması için kullanıcıyı doğrudan ana sayfaya (iletişim bölümüne) yönlendiriyoruz.
+    return RedirectResponse(url="/?status=success#contact", status_code=303)
