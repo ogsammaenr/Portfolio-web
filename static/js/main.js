@@ -119,6 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // 3.5 saniyede bir kartları kaydır
         carouselInterval = setInterval(nextSlide, 3500);
     }
+
+
     // --- FORM GENİŞLETME (ACCORDION) VE OTOMATİK KAYDIRMA ---
     const toggleBtn = document.getElementById('toggle-form-btn');
     const formWrapper = document.getElementById('expandable-form-wrapper');

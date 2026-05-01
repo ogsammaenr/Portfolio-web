@@ -22,6 +22,9 @@
     --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-mono: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
 }
+html {
+    scroll-behavior: smooth;
+}
 html, body {
     margin: 0;
     padding: 0;
@@ -140,7 +143,7 @@ a {
     margin: 0 auto;
     display: grid;
     /* İlk kolon (220px) navigasyonun kapladığı boşluk için, içerik sağda kalır */
-    grid-template-columns: 220px 1fr;
+    grid-template-columns: 110px 1fr;
     gap: 4rem;
     padding: 4rem 2rem;
 }
@@ -463,7 +466,7 @@ a {
     font-size: 0.95rem;
 }
 
-/* --- Modern Kart Tasarımı & Işıklandırma (Glassmorphism + Neon) --- */
+/* --- Modern Kart Tasarımı & Işıklandırma--- */
 .modern-card {
     background: var(--surface-color);
     backdrop-filter: blur(16px);
@@ -473,10 +476,9 @@ a {
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
     overflow: hidden;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); /* Derinlik gölgesi */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5); 
 }
 
-/* Kartın içinden gelen zarif ışıltı */
 .modern-card::before {
     content: '';
     position: absolute;
@@ -489,10 +491,9 @@ a {
 }
 
 .modern-card:hover {
-    transform: translateY(-8px);
+    transform: translateY(-8px) !important; 
     background: var(--surface-hover);
     border-color: var(--border-highlight);
-    /* Dışarıya ve içeriye doğru neon yansıması */
     box-shadow: 
         0 15px 35px rgba(0, 0, 0, 0.6), 
         0 0 20px rgba(56, 189, 248, 0.15),
@@ -501,14 +502,25 @@ a {
 
 .modern-card > * {
     position: relative;
-    z-index: 1;
+    z-index: 2; /* YENİ: Overlay'in üstünde kalması için 2 yapıldı */
 }
 
-/* --- Yeni 3D Odaklı Karusel Yapısı (Sadece Görsel Güncelleme) --- */
+/* --- YENİ: Kart Karartma (Overlay) --- */
+.card-overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    /* Alttan üste doğru açılan şık bir karanlık geçiş */
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 50%, transparent 100%);
+    z-index: 1; /* Görselin üstünde, yazıların altında */
+    border-radius: 16px;
+}
+
+/* --- Yeni 3D Odaklı Karusel Yapısı (Boyutlar Büyütüldü) --- */
 .carousel-container {
     position: relative;
     width: 100%;
-    height: 240px; 
+    /* YÜKSELTİLDİ: Kartlar büyüdüğü için kapsayıcıyı da büyüttük */
+    height: 500px; 
     margin: 3rem 0;
     display: flex;
     justify-content: center;
@@ -519,7 +531,8 @@ a {
 .projects-carousel-3d {
     position: relative;
     width: 100%;
-    max-width: 650px;
+    /* GENİŞLETİLDİ: 3 büyük kartın sığması için */
+    max-width: 1500px; 
     height: 100%;
 }
 
@@ -527,17 +540,35 @@ a {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 340px;
-    height: 160px;
-    padding: 1.5rem;
+    /* YENİ: Kart Boyutları Büyük Oranda Artırıldı */
+    width: 500px;
+    height: 400px;
+    padding: 2rem; /* İç boşluk da artırıldı */
+    
+    /* YENİ: Arka Plan Görseli Ayarları */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-end; /* İçerik alta hizalandı */
+    gap: 1rem; /* Yazılar ile tech stack arası boşluk */
+    
     transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
     transform: translate(-50%, -50%) scale(0.5);
     opacity: 0;
     z-index: 1;
     pointer-events: none;
+    
+    /* Metin rengini görsel üstünde okunsun diye beyaz yaptık */
+    color: #fff; 
+}
+
+/* Header başlıkları da beyaz olmalı */
+.carousel-card-3d .project-header h4 {
+    color: #fff;
+    margin-bottom: 0.5rem;
 }
 
 .carousel-card-3d.center {
@@ -549,22 +580,23 @@ a {
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(56, 189, 248, 0.1);
 }
 
+/* YENİ: Sol ve Sağ kartların mesafeleri büyük kartlara göre uyarlandı */
 .carousel-card-3d.left {
-    transform: translate(-130%, -50%) scale(0.85);
+    transform: translate(-120%, -50%) scale(0.8);
     opacity: 0.4;
     z-index: 2;
-    filter: blur(2px); /* Odak dışı olanlara derinlik (blur) kattık */
+    filter: blur(3px); /* Blur efekti biraz artırıldı */
 }
 
 .carousel-card-3d.right {
-    transform: translate(30%, -50%) scale(0.85);
+    transform: translate(20%, -50%) scale(0.8);
     opacity: 0.4;
     z-index: 2;
-    filter: blur(2px);
+    filter: blur(3px);
 }
 
 .carousel-card-3d.center:hover {
-    transform: translate(-50%, -55%) scale(1.02);
+    transform: translate(-50%, -55%) scale(1.02) !important;
     border-color: var(--accent);
     box-shadow: 0 25px 50px rgba(0, 0, 0, 0.9), 0 0 40px rgba(56, 189, 248, 0.25);
 }
@@ -998,7 +1030,7 @@ svg {
     transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
     
     /* İŞTE SİHİR BURADA: Arka plana vuran devasa siber ışıma (Glow) */
-    animation: ambient-neon-glow 4s infinite alternate ease-in-out;
+    animation: ambient-neon-glow 10s ease-in forwards;
 }
 
 
@@ -1039,8 +1071,6 @@ svg {
 }
 
 
-
-
 @keyframes ambient-neon-glow {
     0% {
         box-shadow: 
@@ -1054,3 +1084,48 @@ svg {
             0 0 150px 50px rgba(56, 189, 248, 0.1);  /* En dışa yayılan sönük aura */
     }
 }
+
+
+/* --- Modern Toast Bildirim Kapsayıcısı --- */
+.toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 9999;
+    pointer-events: none; /* Bildirimlerin altındaki elementlere tıklanabilmesini sağlar */
+}
+
+/* --- Modern Toast Bildirim Tasarımı --- */
+.modern-toast {
+    background: var(--surface-color); /* Karanlık temanla uyumlu yüzey rengi */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-color);
+    color: #fff;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    pointer-events: auto; /* Bildirimin kendisine tıklanabilmesi için */
+    
+    /* Sağda ekran dışından başlar */
+    transform: translateX(120%); 
+    opacity: 0;
+    
+    /* Zıplama/esneme (bounce) geçiş efekti */
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* JavaScript ile eklenecek aktif sınıfı (Ekrana giriş) */
+.modern-toast.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+/* Durumlara göre sol kenarlık renkleri */
+.modern-toast.success { border-left: 4px solid #10b981; } /* Yeşil */
+.modern-toast.error { border-left: 4px solid #ef4444; }   /* Kırmızı */
+.modern-toast.warning { border-left: 4px solid #f59e0b; } /* Sarı */

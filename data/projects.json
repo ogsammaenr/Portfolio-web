@@ -10,7 +10,7 @@
     {
         "slug": "inventory-builder",
         "name": "Minecraft Inventory Builder",
-        "description": "Minecraft envanterinizi istediğiniz gibi düzenleyebileceğiniz bir web uygulaması.",
+        "description": "İstediğiniz gibi Minecraft envanteri oluşturabileceğiniz bir web uygulaması.",
         "github": "https://github.com/ogsammaenr/minecraft-inventory-builder.git",
         "pinned": false,
         "tech_stack": ["python", "html", "css", "javascript"]

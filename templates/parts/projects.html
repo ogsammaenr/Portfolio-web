@@ -6,9 +6,14 @@
 <div class="carousel-container">
     <div class="projects-carousel-3d">
         {% for project in pinned_projects %}
-        <a href="/project/{{ project.slug }}" class="carousel-card-3d modern-card">
+        <!-- DÜZELTME: inline style ile arka plan görseli eklendi -->
+        <a href="/project/{{ project.slug }}" class="carousel-card-3d modern-card" style="background-image: url('{{ project.image_url | default('/static/default-bg.jpg') }}');">
+            
+            <!-- YENİ: Okunabilirliği sağlayan karartma (overlay) katmanı -->
+            <div class="card-overlay"></div>
+            
+            <!-- Mevcut İçerik (Z-index ile overlay üstüne çıkacak) -->
             <header class="project-header">
-                <!-- DÜZELTME: title yerine name kullanıldı -->
                 <h4>{{ project.name }}</h4>
                 <span class="arrow">↗</span>
             </header>
