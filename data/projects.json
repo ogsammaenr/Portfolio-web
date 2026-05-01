@@ -41,7 +41,7 @@
     },
     {
         "slug": "custom-generator",
-        "name": "Custon Generator",
+        "name": "Custom Generator",
         "description": "Minecraft Skyblock sunuculari için özel generator plugini.",
         "github": "https://github.com/ogsammaenr/Custom-Generator.git",
         "pinned": true,
