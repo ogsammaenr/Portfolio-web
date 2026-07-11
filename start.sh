@@ -1,17 +1,34 @@
 #!/bin/bash
 
-# Scriptin çalıştığı klasörü (proje dizinini) otomatik bul
-cd "$(dirname "$0")"
+# 1. Çevre değişkenlerini genişletip sistem yollarını zorla tanımlıyoruz
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-# venv yoksa oluştur
-[ -d "venv" ] || python3 -m venv venv 2>/dev/null || /usr/bin/python3 -m venv venv 2>/dev/null
+# 2. Plesk hapishanesindeki hata çıktınızdan aldığımız net mutlak yola geçiş yapıyoruz
+cd /httpdocs/portfolio
 
-# Bağımlılıkları güncelle
+# 3. Eski süreci PID dosyası üzerinden kapatıyoruz (lsof gerektirmez)
+if [ -f "uvicorn.pid" ]; then
+  OLD_PID=$(cat uvicorn.pid)
+  echo "Eski süreç sonlandırılıyor: $OLD_PID"
+  kill -9 $OLD_PID 2>/dev/null
+  rm uvicorn.pid
+fi
+
+# Güvenlik önlemi: Eğer pkill komutu ortamda varsa uvicorn'u her ihtimale karşı temizle
+pkill -f "uvicorn" 2>/dev/null
+
+# 4. venv kontrolü (Hata çıkarsa venv_creation.log dosyasına yazacak)
+if [ ! -d "venv" ]; then
+  echo "Sanal ortam oluşturuluyor..."
+  python3 -m venv venv >venv_creation.log 2>&1
+fi
+
+# 5. Bağımlılıkları yükle
 ./venv/bin/pip install --upgrade pip
 ./venv/bin/pip install -r requirements.txt
 
-# Port 8000'deki eski uvicorn'u temizle
-lsof -t -i:8000 | xargs kill -9 2>/dev/null || true
+# 6. Uvicorn'u başlat ve Bash'in yerleşik '$!' özelliğini kullanarak PID'sini kaydet
+nohup ./venv/bin/uvicorn main:app --host 127.0.0.1 --port 8000 >uvicorn.log 2>&1 &
+echo $! >uvicorn.pid
 
-# Uvicorn'u başlat
-./venv/bin/uvicorn main:app --host 127.0.0.1 --port 8000 >uvicorn.log 2>&1
+echo "FastAPI başlatma komutu tetiklendi!"
